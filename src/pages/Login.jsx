@@ -1,48 +1,140 @@
 import Styles from './Login.module.css'
 import blogspot from '../assets/blopspot.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { auth } from '../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import {TextField,CircularProgress} from '@mui/material'
 
 function Login() {
+
+    const navigate = useNavigate()
+
+useEffect(()=>{
+    const userUid = localStorage.getItem("uid")
+    if (userUid) {
+        navigate('/dashboard')
+    }
+    return
+},[])
+
+const [email , setEmail] = useState("")
+const [password, setPassword] = useState("")
+const [invalid,isInvalid] = useState(false)
+const [loading, setLoading] = useState(false);
+
+
+
+let loginHandler = async () => {
+    setLoading(true);
+    try {
+        const res = await signInWithEmailAndPassword(auth, email, password)
+        localStorage.setItem("uid", res.user.uid)
+        console.log(res)
+        isInvalid(false)
+        navigate('/dashboard')
+
+    } catch (error) {
+        console.log("error",error.message)
+        isInvalid(true)
+    } finally {
+    setLoading(false); 
+  }
+    
+    setEmail("")
+    setPassword("")
+  
+
+}
+
+
+
   return (
-    <> 
-    <div  className={`${Styles.signInLogoContainer} d-flex justify-content-center mt-2`}>
-      <img src={blogspot} className={`${Styles.signInLogo}`} alt="" />
-    </div>
-    <div className={Styles.mainContainer}>
+    <>
+      <div
+        className={`${Styles.signInLogoContainer} d-flex justify-content-center mt-2`}
+      >
+        <img src={blogspot} className={`${Styles.signInLogo}`} alt="" />
+      </div>
+      <div className={Styles.mainContainer}>
         <div className={Styles.leftContainer}>
-            <div>
-                <img className={Styles.mainLogo} src={blogspot} alt=""/>
-            </div>
+          <div>
+            <img className={Styles.mainLogo} src={blogspot} alt="" />
+          </div>
 
-            <div>
-                <h1 className={Styles.welcomeHeading}>Welcome <br/>to BlogSpot</h1>
-                <p className={Styles.paraSignIn}>Sign in to <br/> continue access</p>
-            </div>
+          <div>
+            <h1 className={Styles.welcomeHeading}>
+              Welcome <br />
+              to BlogSpot
+            </h1>
+            <p className={Styles.paraSignIn}>
+              Sign in to <br /> continue access
+            </p>
+          </div>
 
-            <div>
-                <p className={Styles.paraCopy}>&copy; 2024 BlogSpot. All rights reserved.</p>
-            </div>
-
+          <div>
+            <p className={Styles.paraCopy}>
+              &copy; 2024 BlogSpot. All rights reserved.
+            </p>
+          </div>
         </div>
 
-        <div className={`${Styles.rightContainer} container justify-content-center align-items-center`}>
-            <div>
-                <h1 className={Styles.heading}>Sign In</h1>
-            </div>
+        <div
+          className={`${Styles.rightContainer} container justify-content-center align-items-center`}
+        >
+          <div>
+            <h1 className={Styles.heading}>Sign In</h1>
+          </div>
 
-            <div class="d-flex flex-column gap-4 align-items-center mt-5">
-                <input type="text" className={Styles.inputField} placeholder="Email Address" name="" id="email"/>
-                <input type="password" className={Styles.inputField} placeholder="Password" name="" id="pass"/>
-                <div className={Styles.invalid}>
-                    <sub>Invalid Email or Password!</sub>
-                </div>
-                <button className={Styles.continueBtn}>Login</button>
-                <p className={Styles.paraCopy}><Link className={Styles.link} to={"/signup"}>Sign Up?</Link></p>
-            </div>
+          <div className="d-flex flex-column gap-4 align-items-center mt-5">
+            <TextField
+              id="email"
+              label="Email Address"
+              variant="standard"
+              className={Styles.inputField}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              color="dark"
+            />
+
+            <TextField
+              id="pass"
+              label="Password"
+              variant="standard"
+              type="password"
+              className={Styles.inputField}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              color="dark"
+            />
+
+            {invalid && (
+              <div className={Styles.invalid}>
+                <sub>Invalid Email or Password!</sub>
+              </div>
+            )}
+            <button
+              className={Styles.continueBtn}
+              onClick={loginHandler}
+              disabled={loading}
+            >
+              {loading ? (
+                <CircularProgress size={20} color="inherit" />
+              ) : (
+                "Login"
+              )}
+            </button>
+
+            <p className={Styles.paraCopy}>
+              <Link className={Styles.link} to={"/signup"}>
+                Sign Up?
+              </Link>
+            </p>
+          </div>
         </div>
-    </div>
+      </div>
     </>
-  )
+  );
 }
 
 export default Login

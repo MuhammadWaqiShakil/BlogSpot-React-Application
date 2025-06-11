@@ -75,11 +75,46 @@
 
 }
 
+/* Target the label inside MUI TextField */
+.inputField label {
+  font-size: 16px;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .inputField label {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .inputField label {
+    font-size: 12px;
+  }
+}
+
+/* Also adjust input font size */
+.inputField input {
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .inputField input {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .inputField input {
+    font-size: 13px;
+  }
+}
+
+
 .invalid{
     color: red;
     font-size: 2.5vmin;
     font-weight: 500;
-    display: none;
 }
 
 .continueBtn{
