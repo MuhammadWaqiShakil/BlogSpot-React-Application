@@ -1,0 +1,120 @@
+
+.heading{
+    font-size: 9vmin;
+    font-weight: 500;
+    line-height: 9vmin;
+}
+
+.link{
+    color: black;
+}
+.mainContainer{
+    background-color: whitesmoke;
+    min-height: 100vh;
+    display: flex;
+}
+
+.leftContainer{
+    width: 80%;
+    background-image: url('../assets/bgLeft.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.mainLogo{
+    width: 25vmin;
+    margin-top: 8px;
+    margin-left: 5px;
+
+}
+
+.signInLogo{
+    width: 29vmin;
+    display: none;
+    
+}
+
+.paraSignIn{
+    text-align: center;
+    margin-top: 25px;
+     font-size: 2.8vmin;
+}
+.welcomeHeading{
+   font-size: 9vmin;
+    font-weight: 500;
+    line-height: 9vmin;
+   text-align: center;
+}
+
+.paraCopy{
+    font-size: 2vmin;
+    margin-left: 15px;
+}
+
+.rightContainer{
+    width: 50%;
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.inputField{
+    width: 50vmin;
+    height: 5vmin;
+    padding-left: 8px;
+    border: none;
+    border-bottom: 1px solid black;
+    font-size: 1.7vmin;
+    background-color: whitesmoke;
+
+}
+
+.invalid{
+    color: red;
+    font-size: 2.5vmin;
+    font-weight: 500;
+    display: none;
+}
+
+.continueBtn{
+    width: 50vmin;
+    height: 5vmin;
+    color: whitesmoke;
+    background: linear-gradient(to right, #000000, #363636);;
+    font-size: 2.5vmin;
+    border: none;
+    border-radius: 20px;
+    transition: transform .3s;
+}
+
+.continueBtn:hover{
+    transform: scale(104%);
+    cursor: pointer;
+}
+
+.signInLogoContainer{
+  display: none;
+}
+@media only screen and (max-width: 1150px) {
+  .signInLogo {
+   display: block;
+  }
+  .leftContainer{
+    display: none;
+  }
+  .rightContainer{
+    width: 100%;
+    justify-content: start;
+  }
+  .signInLogoContainer{
+    display: block;
+    position: absolute;
+    left: 36%;
+  }
+}
