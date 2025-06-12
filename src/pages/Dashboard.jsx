@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import NavBar from '../components/NavBar'
 const Dashboard = () => {
 
 const navigate = useNavigate()
@@ -15,8 +15,9 @@ useEffect(()=>{
 
 
   return (
-    <div>Dashboard</div>
+    <NavBar/>
   )
+
 }
 
 export default Dashboard

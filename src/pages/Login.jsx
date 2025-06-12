@@ -86,8 +86,9 @@ let loginHandler = async () => {
             <h1 className={Styles.heading}>Sign In</h1>
           </div>
 
-          <div className="d-flex flex-column gap-4 align-items-center mt-5">
+          <div className="d-flex flex-column gap-4 align-items-center mt-4">
             <TextField
+            sx={{marginBottom:"1px"}}
               id="email"
               label="Email Address"
               variant="standard"
@@ -114,7 +115,7 @@ let loginHandler = async () => {
               </div>
             )}
             <button
-              className={Styles.continueBtn}
+              className={`${Styles.continueBtn} mt-4`}
               onClick={loginHandler}
               disabled={loading}
             >

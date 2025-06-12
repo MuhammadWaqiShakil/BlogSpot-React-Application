@@ -90,6 +90,7 @@ try{
 
             <div className="d-flex flex-column gap-4 align-items-center mt-5">
                 <TextField
+  sx={{marginBottom:"1px"}}
   id="firstName"
   label="First Name"
   variant="standard"
@@ -100,6 +101,7 @@ try{
 />
 
 <TextField
+   sx={{marginBottom:"1px"}}
   id="lastName"
   label="Last Name"
   variant="standard"
@@ -110,6 +112,7 @@ try{
 />
 
 <TextField
+   sx={{marginBottom:"1px"}}
   id="email"
   label="Email Address"
   variant="standard"
@@ -120,6 +123,7 @@ try{
 />
 
 <TextField
+ sx={{marginBottom:"1px"}}
   id="pass"
   label="Password"
   variant="standard"
@@ -131,6 +135,7 @@ try{
 />
 
 <TextField
+ sx={{marginBottom:"1px"}}
   id="rePass"
   label="Re-type Password"
   variant="standard"
@@ -142,6 +147,7 @@ try{
 />
 
 <TextField
+ sx={{marginBottom:"1px"}}
   id="age"
   label="Age"
   variant="standard"
@@ -152,6 +158,7 @@ try{
   color="dark"
 />
                 <button
+                style={{marginTop:"10px"}}
   className={Styles.continueBtn}
   onClick={signUpHandler}
   disabled={loading}
