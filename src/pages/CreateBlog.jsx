@@ -13,6 +13,7 @@ import {
   Paper,
   CircularProgress
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {db} from '../firebase.js'
 import { addDoc, collection } from 'firebase/firestore';
 import { ToastAlert } from '../utils/index.js';
@@ -44,13 +45,27 @@ const CreateBlog = () => {
     }
 
     try {
+      let url;
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("upload_preset", "ReactImage");
+      await fetch("https://api.cloudinary.com/v1_1/dfl8sw998/image/upload", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+         url = (data.secure_url);
+        });
+
       if(isPrivate==true){
       const obj = {
             title: title,
             desc: description,
             isPublic: false,
             isPrivate: true,
-            uid: localStorage.getItem('uid')
+            uid: localStorage.getItem('uid'),
+            imageUrl: url ? url : null
         }
       await addDoc(collection(db, "privateBlogs"), obj);
       ToastAlert({
@@ -63,10 +78,11 @@ const CreateBlog = () => {
             desc: description,
             isPublic: true,
             isPrivate: false,
-            uid: localStorage.getItem('uid')
+            uid: localStorage.getItem('uid'),
+            imageUrl: url ? url : null
         }
       await addDoc(collection(db, "publicBlogs"), obj);
-      ToastAlert({
+      ToastAlert({ 
         type: 'success',
         message: 'Blog Successfully Created!'
       })
@@ -273,10 +289,18 @@ const CreateBlog = () => {
                 variant="body2" 
                 sx={{ 
                   color: 'rgba(0,0,0,0.7)',
-                  fontSize: '0.9rem'
+                  fontSize: '0.8rem',
+                  textAlign:'center'
                 }}
+
               >
                 Selected Image: {image.name}
+                <Button
+                sx={{color:'red'}}>
+                  <DeleteIcon onClick={()=>{
+                    setImage(null)
+                  }}/>
+                </Button>
               </Typography>
             )}
 

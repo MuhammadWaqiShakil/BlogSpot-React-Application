@@ -6,6 +6,7 @@ import { auth, db } from '../firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { TextField,CircularProgress } from '@mui/material';
+import { ToastAlert } from '../utils'
 
 function SignUp() {
 
@@ -32,7 +33,10 @@ function SignUp() {
 
 let signUpHandler = async () => {
  if (password != rePass || password.length < 6 || email == "") {
-    alert("Check Email or Verify your Password! (min length should be 6)");
+    ToastAlert({
+      type:"error",
+      message:"Check Email or Verify your Password! (min length should be 6)"
+    })
     return
  }else{
 setLoading(true);
@@ -41,10 +45,29 @@ try{
    await setDoc(doc(db, "users", res.user.uid), {
     firstName: firstName,
     lastName: lastName,
-    age: age
+    age: age,
+    email: email,
+    bio: '',
+    avatarUrl: '',
+    coverUrl: '',
+    role:'',
+    posts:0,
+    followers:0,
+    following:0,
+    socialLinks: {},
+    isProfileComplete: false
   });
+ ToastAlert({
+  type:"success",
+  message:"User successfully Registered!"
+ })
+ 
+ navigate('/')
 }catch(error) {
-    console.log("error" , error.message)
+     ToastAlert({
+      type:"error",
+      message: error.message
+     })
   } finally {
     setLoading(false);
   }
@@ -57,9 +80,7 @@ try{
  setFirstName("")
  setLastName("")
  setAge("")
- 
- alert("User successfully Registered!")
- navigate('/')
+
  }
 
   return (

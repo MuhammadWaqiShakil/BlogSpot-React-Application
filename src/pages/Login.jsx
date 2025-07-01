@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import {TextField,CircularProgress} from '@mui/material'
+import { ToastAlert } from '../utils';
 
 function Login() {
 
@@ -20,7 +21,6 @@ useEffect(()=>{
 
 const [email , setEmail] = useState("")
 const [password, setPassword] = useState("")
-const [invalid,isInvalid] = useState(false)
 const [loading, setLoading] = useState(false);
 
 
@@ -30,13 +30,17 @@ let loginHandler = async () => {
     try {
         const res = await signInWithEmailAndPassword(auth, email, password)
         localStorage.setItem("uid", res.user.uid)
-        console.log(res)
-        isInvalid(false)
+        ToastAlert({
+          type: "success",
+          message: "Logged in Successfully!"
+    })
         navigate('/dashboard')
 
     } catch (error) {
-        console.log("error",error.message)
-        isInvalid(true)
+         ToastAlert({
+          type: "error",
+          message: "Invalid Email or Password!"
+    })
     } finally {
     setLoading(false); 
   }
@@ -109,11 +113,6 @@ let loginHandler = async () => {
               color="dark"
             />
 
-            {invalid && (
-              <div className={Styles.invalid}>
-                <sub>Invalid Email or Password!</sub>
-              </div>
-            )}
             <button
               className={`${Styles.continueBtn} mt-4`}
               onClick={loginHandler}

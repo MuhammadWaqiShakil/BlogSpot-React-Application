@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import MyBlogs from './pages/MyBlogs'
 import CreateBlog from './pages/CreateBlog'
 import { Bounce, ToastContainer } from 'react-toastify'
+import Profile from './pages/profile'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
       <Route path='/dashboard' element={<Dashboard/>} />
       <Route path='/myblogs' element={<MyBlogs/>} /> 
       <Route path='/createblog' element={<CreateBlog/>} /> 
+      <Route path='/profile' element={<Profile/>} /> 
     </Routes>
 
 

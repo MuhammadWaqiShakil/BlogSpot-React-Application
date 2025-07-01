@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,24 +13,52 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import blogspot from '../assets/blopspot.png'
 import { NavLink, useNavigate } from 'react-router-dom';
+import { ToastAlert } from '../utils';
+import Profile from '../pages/profile';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 
 
 
 const NavBar = () => {
 
+
   const Navigate = useNavigate()
+  const userUid = localStorage.getItem("uid")
+  const [userData,setUserData] = useState({})
+
+  useEffect(() => {
+
+  const fetchUser = async () => {
+    try {
+      const docRef = doc(db, 'users', userUid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setUserData(docSnap.data());
+      }
+    } catch (error) {
+      console.log(error.message)
+    } 
+  };
+
+  fetchUser();
+}, [userUid]);
+
   const logoutHandler = () =>{
     localStorage.setItem('uid','');
     Navigate('/')
-    alert("Successfully Signed Out")
+    ToastAlert({
+      type:'success',
+      message:"Successfully Signed Out"
+    })
 }
   const pages = [
   { name: 'Home', path: '/dashboard' },
   { name: 'My Blogs', path: '/myblogs' },
   { name: 'Create Blog', path: '/createblog' },
 ];
-  const settings = [{name: 'My Profile', navTo: ()=>{} },{ name: 'Logout', navTo: logoutHandler}];
+  const settings = [{name: 'My Profile', navTo: ()=>{Navigate('/profile')} },{ name: 'Logout', navTo: logoutHandler}];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -173,7 +201,7 @@ const NavBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={userData.firstName} src={userData?.avatarUrl || "/static/images/avatar/2.jpg"} />
               </IconButton>
             </Tooltip>
             <Menu
