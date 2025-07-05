@@ -46,6 +46,7 @@ const NavBar = () => {
 }, [userUid]);
 
   const logoutHandler = () =>{
+    localStorage.setItem('user','');
     localStorage.setItem('uid','');
     Navigate('/')
     ToastAlert({

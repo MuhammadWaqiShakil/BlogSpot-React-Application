@@ -24,8 +24,8 @@ const CreateBlog = () => {
   const [isPrivate, setIsPrivate] = useState(false);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
-
-
+  const userData = JSON.parse(localStorage.getItem('user'))
+  const author = userData.providerData[0].displayName
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -46,6 +46,7 @@ const CreateBlog = () => {
 
     try {
       let url;
+      if(image){
       const formData = new FormData();
       formData.append("file", image);
       formData.append("upload_preset", "ReactImage");
@@ -57,13 +58,14 @@ const CreateBlog = () => {
         .then((data) => {
          url = (data.secure_url);
         });
-
+      }
       if(isPrivate==true){
       const obj = {
             title: title,
             desc: description,
             isPublic: false,
             isPrivate: true,
+            author:author,
             uid: localStorage.getItem('uid'),
             imageUrl: url ? url : null
         }
@@ -78,6 +80,7 @@ const CreateBlog = () => {
             desc: description,
             isPublic: true,
             isPrivate: false,
+            author:author,
             uid: localStorage.getItem('uid'),
             imageUrl: url ? url : null
         }

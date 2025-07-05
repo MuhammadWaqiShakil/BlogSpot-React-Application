@@ -30,6 +30,7 @@ let loginHandler = async () => {
     try {
         const res = await signInWithEmailAndPassword(auth, email, password)
         localStorage.setItem("uid", res.user.uid)
+        localStorage.setItem("user", JSON.stringify(res.user))
         ToastAlert({
           type: "success",
           message: "Logged in Successfully!"

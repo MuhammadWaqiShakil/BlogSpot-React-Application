@@ -3,7 +3,7 @@ import Styles from './Login.module.css'
 import blogspot from '../assets/blopspot.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { auth, db } from '../firebase'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { TextField,CircularProgress } from '@mui/material';
 import { ToastAlert } from '../utils'
@@ -42,6 +42,9 @@ let signUpHandler = async () => {
 setLoading(true);
 try{
    const res = await createUserWithEmailAndPassword(auth, email, password)
+   await updateProfile(res.user, {
+      displayName: firstName + " " + lastName
+    })
    await setDoc(doc(db, "users", res.user.uid), {
     firstName: firstName,
     lastName: lastName,
